@@ -1,0 +1,38 @@
+{
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#10b981",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "name": "Ilands solutions",
+  "short_name": "ilands_s",
+  "id": "com.bs-investissement.ilandssolutions",
+  "description": "Ilands Solutions est une plateforme IA tout-en-un conçue pour aider les entreprises, les entrepreneurs et les professionnels à créer des contenus, analyser des données, générer des rapports, automatiser leurs processus et améliorer leur productivité grâce à des agents intelligents.",
+  "start_url": "/",
+  "scope": "/",
+  "orientation": "portrait",
+  "display_override": [
+    "minimal-ui",
+    "browser",
+    "window-controls-overlay",
+    "standalone"
+  ],
+  "categories": [
+    "business",
+    "developer",
+    "development",
+    "education",
+    "productivity",
+    "utilities"
+  ]
+}

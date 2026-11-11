@@ -1,0 +1,68 @@
+ /* Empêche Google de décaler la page vers le haut/bas */
+body {
+    top: 0px !important;
+}
+.goog-te-banner-frame {
+    display: none !important;
+}
+
+/* Cache les textes natifs et logos de Google */
+.goog-te-gadget {
+    font-size: 0 !important;
+    color: transparent !important;
+}
+.goog-logo-link, 
+.goog-te-gadget span {
+    display: none !important;
+}
+
+/* Style moderne du menu déroulant (s'adapte à votre dark/light mode) */
+.goog-te-gadget select {
+    background-color: transparent;
+    color: inherit;
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.50rem;
+    border: 1px solid currentColor;
+    font-size: 0.75rem; /* text-xs */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    outline: none;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.goog-te-gadget select:hover {
+    opacity: 1;
+}
+
+/* Supprime les infoboules de survol parasites */
+.goog-tooltip {
+    display: none !important;
+}
+.goog-text-highlight {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+/* Masque totalement le bandeau iframe et les infoboules de Google */
+.goog-te-banner-frame,
+iframe.goog-te-banner-frame,
+#goog-gt-tt,
+.goog-te-balloon-frame {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Force le corps de la page à rester en haut */
+body {
+    top: 0px !important;
+    position: static !important;
+}
+   
+/*     x-data="{ dark: true }"
+    :class="dark ? 'dark bg-black text-white' : 'bg-gray-100 text-gray-900'"      
+    class="transition duration-500" */
