@@ -7,6 +7,7 @@ use App\Http\Controllers\PortalController;
 use App\Http\Controllers\RsvpController;
 use App\Livewire\Admin\AuditTrail;
 use App\Livewire\Bookings\BookingForm;
+use App\Http\Controllers\VenueSwitchController;
 use App\Livewire\Bookings\CancelBooking;
 use App\Livewire\Bookings\DepositManager;
 use App\Livewire\Contracts\ContractManager;
@@ -28,6 +29,9 @@ use App\Livewire\Quotes\QuoteConfigurator;
 use App\Livewire\Venues\MyVenues;
 use App\Models\Booking;
 use App\Livewire\Catalog\CatalogManager;
+use App\Livewire\Api\ApiTokens;
+use App\Livewire\Privacy\PrivacyCenter;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route('dashboard'));
@@ -64,6 +68,7 @@ Route::post('/rsvp/{token}', [RsvpController::class, 'store'])->name('rsvp.store
 Route::middleware(['auth', 'verified'])->group(function () {
     // Doit rester accessible même si la salle active est suspendue
     Route::get('/salles', MyVenues::class)->name('venues');
+    Route::post('/salles/{venue}/ouvrir', VenueSwitchController::class)->name('venues.switch');
 });
 
 Route::middleware(['auth', 'verified', 'superadmin'])->group(function () {
@@ -128,6 +133,8 @@ Route::middleware(['auth', 'verified', 'venue.active'])->group(function () {
         Route::get('/finances/rentabilite', Profitability::class)->name('finance.profit');
         Route::get('/tarifs/saisons', SeasonRules::class)->name('pricing.seasons');
         Route::get('/catalogue', CatalogManager::class)->name('catalog');
+        Route::get('/parametres/api', ApiTokens::class)->name('settings.api');
+Route::get('/confidentialite', PrivacyCenter::class)->name('privacy');
     });
 });
 

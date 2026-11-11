@@ -1,74 +1,74 @@
 <!DOCTYPE html>
-<html lang="fr" x-data="{ dark: localStorage.getItem('theme') === 'dark' }" :class="{ 'dark': dark }">
+<html lang="fr" class="h-full">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>{{ auth()->user()?->venue?->name ?? 'Plateforme' }}</title>
+    <title>{{ auth()->user()?->venue?->name ?? config('app.name') }}</title>
+
+    {{-- Thème appliqué avant le premier affichage : pas de flash clair/sombre --}}
+    <script>
+        (function () {
+            var t = localStorage.getItem('theme');
+            if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet">
+
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#f59e0b">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-100 via-white to-amber-50 text-slate-800 antialiased dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 dark:text-slate-100 pb-24 md:pb-8">
-    @php $user = auth()->user(); $isOwner = $user->role->value === 'proprietaire'; @endphp
 
-    <header class="sticky top-0 z-30 border-b border-white/40 bg-white/60 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/60">
-        <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-            <div class="flex items-center gap-4">
-                <a href="{{ route('dashboard') }}" class="font-bold tracking-tight">{{ $user->venue?->name ?? 'Plateforme' }}</a>
-                <nav class="hidden flex-wrap items-center gap-3 text-sm md:flex">
-                    <a href="{{ route('calendar') }}" class="hover:text-amber-600">Calendrier</a>
-                    <a href="{{ route('stock') }}" class="hover:text-amber-600">Stock</a>
-                    @if($user->role->canSell())
-                        <a href="{{ route('bookings.create') }}" class="hover:text-amber-600">Réserver</a>
-                        <a href="{{ route('crm') }}" class="hover:text-amber-600">CRM</a>
-                    @endif
-                    @if($isOwner)
-                        <a href="{{ route('audit') }}" class="hover:text-amber-600">Journal</a>
-                        <a href="{{ route('finance.profit') }}" class="hover:text-amber-600">Rentabilité</a>
-                        <a href="{{ route('finance.expenses') }}" class="hover:text-amber-600">Dépenses</a>
-                        <a href="{{ route('pricing.seasons') }}" class="hover:text-amber-600">Saisons</a>
-                        <a href="{{ route('catalog') }}" class="hover:text-amber-600">Catalogue</a>
-                        <a href="{{ route('venues') }}" class="hover:text-amber-600">Mes salles</a>
-                    @endif
-                    
-                    @if($user->is_super_admin)
-                        <a href="{{ route('platform') }}" class="font-semibold text-amber-600">Plateforme</a>
-                    @endif
-                </nav>
+<body x-data class="h-full bg-slate-50 font-[Inter,ui-sans-serif,system-ui] text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-100">
+
+    {{-- Fond décoratif discret --}}
+    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div class="absolute -top-40 right-0 h-96 w-96 rounded-full bg-amber-200/30 blur-3xl dark:bg-amber-500/5"></div>
+        <div class="absolute bottom-0 left-64 h-80 w-80 rounded-full bg-sky-200/30 blur-3xl dark:bg-sky-500/5"></div>
+    </div>
+
+    <x-sidebar />
+
+    <div class="flex min-h-screen flex-col md:pl-64">
+        <x-topbar />
+
+        <main class="flex-1 px-4 pb-28 pt-6 sm:px-6 md:pb-12 lg:px-8">
+            <div class="mx-auto max-w-7xl">
+                {{ $slot }}
             </div>
-            <div class="flex items-center gap-3">
-                <span class="hidden text-xs text-slate-500 dark:text-slate-400 sm:inline">{{ $user->role->label() }}</span>
-                <button type="button"
-                        @click="dark = !dark; localStorage.setItem('theme', dark ? 'dark' : 'light')"
-                        class="rounded-full p-2 hover:bg-slate-200/70 dark:hover:bg-slate-800"
-                        aria-label="Changer de thème">
-                    <span x-show="!dark">🌙</span>
-                    <span x-show="dark">☀️</span>
-                </button>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button class="text-sm text-slate-500 hover:text-red-500">Quitter</button>
-                </form>
-            </div>
-        </div>
-    </header>
+        </main>
+    </div>
 
-    <main class="mx-auto max-w-6xl p-4">
-        {{ $slot }}
-    </main>
+    <x-bottom-nav />
+    <x-toast />
 
-    <nav class="fixed inset-x-0 bottom-0 z-30 border-t border-white/40 bg-white/80 backdrop-blur-xl md:hidden dark:border-slate-800 dark:bg-slate-900/80"
-         style="padding-bottom: env(safe-area-inset-bottom)">
-        <div class="grid grid-cols-4 text-center text-xs font-medium">
-            <a href="{{ route('dashboard') }}" class="py-3">Accueil</a>
-            <a href="{{ route('calendar') }}" class="py-3">Calendrier</a>
-            @if($user->role->canSell())
-                <a href="{{ route('bookings.create') }}" class="py-3">Réserver</a>
-            @else
-                <a href="{{ route('stock') }}" class="py-3">Stock</a>
-            @endif
-            <a href="{{ route('venues') }}" class="py-3">Salles</a>
-        </div>
-    </nav>
+    {{-- Barre de progression pendant la navigation --}}
+    <div id="nav-progress"
+         class="pointer-events-none fixed inset-x-0 top-0 z-[70] h-0.5 origin-left scale-x-0 bg-gradient-to-r from-amber-400 to-amber-600 transition-transform duration-300"></div>
+
+    <script>
+        (function () {
+            var bar = document.getElementById('nav-progress');
+            document.addEventListener('livewire:navigating', function () {
+                bar.style.transition = 'transform 300ms';
+                bar.style.transform = 'scaleX(0.7)';
+            });
+            document.addEventListener('livewire:navigated', function () {
+                bar.style.transform = 'scaleX(1)';
+                setTimeout(function () {
+                    bar.style.transition = 'none';
+                    bar.style.transform = 'scaleX(0)';
+                    setTimeout(function () { bar.style.transition = ''; }, 50);
+                }, 200);
+            });
+        })();
+    </script>
 
     @livewireScripts
 </body>
