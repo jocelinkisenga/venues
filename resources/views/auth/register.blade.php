@@ -8,13 +8,12 @@
         </h1>
 
         <p class="text-sm text-slate-500 mt-1">
-            Start your journey with ILANDS AI workspace
         </p>
 
     </div>
 
     <!-- Google Signup -->
-    <a href="{{ route('social.redirect', 'google') }}"
+    <a href=""
        class="flex items-center justify-center gap-3 w-full rounded-2xl border border-slate-200 dark:border-slate-800 py-3 text-sm hover:bg-slate-100 dark:hover:bg-slate-900 transition">
 
         <svg width="18" height="18" viewBox="0 0 20 20">

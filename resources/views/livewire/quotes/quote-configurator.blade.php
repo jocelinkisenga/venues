@@ -14,8 +14,14 @@
             <a href="{{ route('bookings.seating', $booking) }}" class="rounded-lg bg-white/80 px-3 py-2 shadow-sm dark:bg-slate-800">Plan de salle</a>
             <a href="{{ route('bookings.beo', $booking) }}" class="rounded-lg bg-white/80 px-3 py-2 shadow-sm dark:bg-slate-800">BEO</a>
             <a href="{{ route("pdf.quote", $booking) }}" class="rounded-lg bg-white/80 px-3 py-2 shadow-sm dark:bg-slate-800">PDF devis</a>
+
             <a href="{{ route('bookings.deposit', $booking) }}" class="rounded-lg bg-white/80 px-3 py-2 shadow-sm dark:bg-slate-800">Caution</a>
 <a href="{{ route('bookings.cancel', $booking) }}" class="rounded-lg bg-red-50 px-3 py-2 text-red-600 shadow-sm dark:bg-red-900/30">Annuler</a>
+<a href="{{ route('bookings.logistics', $booking) }}" class="rounded-lg bg-white/80 px-3 py-2 shadow-sm dark:bg-slate-800">Logistique</a>
+<a href="{{ route('bookings.staff', $booking) }}" class="rounded-lg bg-white/80 px-3 py-2 shadow-sm dark:bg-slate-800">Équipe</a>
+<a href="{{ route('bookings.contract', $booking) }}" class="rounded-lg bg-white/80 px-3 py-2 shadow-sm dark:bg-slate-800">Contrat</a>
+<a href="{{ route('bookings.guests', $booking) }}" class="rounded-lg bg-white/80 px-3 py-2 shadow-sm dark:bg-slate-800">Invités</a>
+<a href="{{ route('bookings.checkin', $booking) }}" class="rounded-lg bg-white/80 px-3 py-2 shadow-sm dark:bg-slate-800">Entrée</a>
             <a href="{{ $whatsappUrl }}" target="_blank" class="rounded-lg bg-emerald-500 px-3 py-2 font-medium text-white shadow-sm">Envoyer par WhatsApp</a>
         </div>
     </div>

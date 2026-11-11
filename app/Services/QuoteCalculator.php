@@ -8,33 +8,35 @@ use App\Models\Quote;
 class QuoteCalculator
 {
     /** Crée le devis avec les lignes du forfait (base + heures supplémentaires). */
-    public function createForBooking(Booking $booking): Quote
-    {
-        $quote = Quote::firstOrCreate(['booking_id' => $booking->id]);
+public function createForBooking(Booking $booking): Quote
+{
+    $quote = Quote::firstOrCreate(['booking_id' => $booking->id]);
 
-        if ($booking->package && $quote->lines()->doesntExist()) {
-            $package = $booking->package;
+    if ($booking->package && $quote->lines()->doesntExist()) {
+        $package = $booking->package;
 
+        $quote->lines()->create([
+            'label' => "Forfait {$package->name}",
+            'quantity' => 1,
+            'unit_price' => $package->base_price,
+        ]);
+
+        $hours = (int) $booking->starts_at->diffInHours($booking->ends_at);
+        $extra = max(0, $hours - $package->included_hours);
+
+        if ($extra > 0 && $package->overtime_rate > 0) {
             $quote->lines()->create([
-                'label' => "Forfait {$package->name}",
-                'quantity' => 1,
-                'unit_price' => $package->base_price,
+                'label' => 'Heures supplémentaires',
+                'quantity' => $extra,
+                'unit_price' => $package->overtime_rate,
             ]);
-
-            $hours = (int) $booking->starts_at->diffInHours($booking->ends_at);
-            $extra = max(0, $hours - $package->included_hours);
-
-            if ($extra > 0 && $package->overtime_rate > 0) {
-                $quote->lines()->create([
-                    'label' => 'Heures supplémentaires',
-                    'quantity' => $extra,
-                    'unit_price' => $package->overtime_rate,
-                ]);
-            }
         }
 
-        return $this->recalculate($quote);
+        app(SeasonalPricing::class)->apply($quote, $booking);
     }
+
+    return $this->recalculate($quote);
+}
 
     /** Recalcule lignes, commissions partenaires, remise, TVA et total. */
     public function recalculate(Quote $quote): Quote

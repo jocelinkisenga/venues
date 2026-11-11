@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Contract;
 use App\Models\Payment;
 use App\Services\BeoGenerator;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -55,4 +56,14 @@ class DocumentController extends Controller
     {
         abort_unless($booking->venue_id === Auth::user()->venue_id, 404);
     }
+
+    public function contract(Contract $contract)
+{
+    abort_unless($contract->venue_id === Auth::user()->venue_id, 404);
+    abort_unless(Auth::user()->role->canSell(), 403);
+
+    return Pdf::loadView('pdf.contract', ['contract' => $contract])
+        ->setPaper('a4')
+        ->download("contrat-{$contract->number}.pdf");
+}
 }

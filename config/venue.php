@@ -17,12 +17,12 @@ return [
         'EUR' => ['label' => 'Euro', 'decimals' => 2],
     ],
 
-    'payment_methods' => [
-        'mobile_money' => 'Mobile Money (Orange Money, MTN MoMo, Wave, M-Pesa, Airtel Money)',
-        'card' => 'Carte bancaire',
-        'bank_transfer' => 'Virement bancaire',
-        'cash' => 'Espèces',
-    ],
+   'payment_methods' => [
+    'mobile_money' => 'Mobile Money (M-Pesa, Orange Money, Airtel Money)',
+    'card' => 'Carte bancaire',
+    'bank_transfer' => 'Virement bancaire',
+    'cash' => 'Espèces',
+],
 
     // TVA par défaut (ex : CI 18 %, SN 18 %, CM 19,25 %) — modifiable par salle
     'default_tax_rate' => env('VENUE_TAX_RATE', 0),
@@ -55,4 +55,5 @@ return [
     ['days' => 15, 'refund' => 50],  // entre 15 et 29 jours : 50 %
     ['days' => 0,  'refund' => 0],   // moins de 15 jours : aucun remboursement
 ],
+
 ];

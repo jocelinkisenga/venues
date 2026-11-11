@@ -15,6 +15,7 @@
         "laravel/ai": "^0.7.2",
         "laravel/cashier": "^16.2",
         "laravel/framework": "^12.0",
+        "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.25",
         "laravel/tinker": "^2.10.1",
         "league/commonmark": "^2.8",
@@ -22,6 +23,7 @@
         "nnjeim/world": "^1.1",
         "predis/predis": "^3.4",
         "prism-php/prism": "^0.100.1",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/browsershot": "^5.4",
         "spatie/laravel-permission": "^7.2"
     },

@@ -18,7 +18,9 @@
 <body>
     <h1>{{ $venue->name }}</h1>
     <p class="muted">{{ $venue->city }} @if($venue->phone)· Tél. {{ $venue->phone }}@endif</p>
-
+    @if($venue->nif || $venue->rccm || $venue->id_nat)
+    <p class="muted">NIF {{ $venue->nif }} · RCCM {{ $venue->rccm }} · ID NAT {{ $venue->id_nat }}</p>
+@endif
     <h2>Devis {{ $booking->reference }}</h2>
     <p>
         <strong>Client :</strong> {{ $booking->client_name }} ({{ $booking->client_phone }})<br>

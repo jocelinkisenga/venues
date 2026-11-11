@@ -12,7 +12,8 @@
         <input wire:model="full_name" placeholder="Nom du prospect" class="{{ $field }} md:col-span-2">
         <input wire:model="phone" placeholder="WhatsApp" class="{{ $field }}">
         <select wire:model="event_type" class="{{ $field }}">
-            @foreach(config('venue.event_types') as $type)<option>{{ $type }}</option>@endforeach
+            {{-- @foreach(config('venue.event_types') as $type)<option>{{ $type }}</option>@endforeach --}}
+            @foreach($eventTypes as $type)<option>{{ $type }}</option>@endforeach
         </select>
         <input type="number" wire:model="expected_guests" placeholder="Invités" class="{{ $field }}">
         <button class="rounded-xl bg-amber-500 px-4 py-2 font-semibold text-white hover:bg-amber-600">Ajouter</button>

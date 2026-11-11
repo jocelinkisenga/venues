@@ -3,28 +3,40 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>{{ auth()->user()?->venue?->name ?? config('app.name') }}</title>
+    <title>{{ auth()->user()?->venue?->name ?? 'Plateforme' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
 <body class="min-h-screen bg-gradient-to-br from-slate-100 via-white to-amber-50 text-slate-800 antialiased dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 dark:text-slate-100 pb-24 md:pb-8">
+    @php $user = auth()->user(); $isOwner = $user->role->value === 'proprietaire'; @endphp
+
     <header class="sticky top-0 z-30 border-b border-white/40 bg-white/60 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/60">
         <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
             <div class="flex items-center gap-4">
-                <a href="{{ route('dashboard') }}" class="font-bold tracking-tight">{{ auth()->user()->venue->name }}</a>
-                <nav class="hidden items-center gap-3 text-sm md:flex">
+                <a href="{{ route('dashboard') }}" class="font-bold tracking-tight">{{ $user->venue?->name ?? 'Plateforme' }}</a>
+                <nav class="hidden flex-wrap items-center gap-3 text-sm md:flex">
                     <a href="{{ route('calendar') }}" class="hover:text-amber-600">Calendrier</a>
-                    @if(auth()->user()->role->canSell())
+                    <a href="{{ route('stock') }}" class="hover:text-amber-600">Stock</a>
+                    @if($user->role->canSell())
                         <a href="{{ route('bookings.create') }}" class="hover:text-amber-600">Réserver</a>
                         <a href="{{ route('crm') }}" class="hover:text-amber-600">CRM</a>
                     @endif
-                    @if(auth()->user()->role->value === 'proprietaire')
+                    @if($isOwner)
                         <a href="{{ route('audit') }}" class="hover:text-amber-600">Journal</a>
+                        <a href="{{ route('finance.profit') }}" class="hover:text-amber-600">Rentabilité</a>
+                        <a href="{{ route('finance.expenses') }}" class="hover:text-amber-600">Dépenses</a>
+                        <a href="{{ route('pricing.seasons') }}" class="hover:text-amber-600">Saisons</a>
+                        <a href="{{ route('catalog') }}" class="hover:text-amber-600">Catalogue</a>
+                        <a href="{{ route('venues') }}" class="hover:text-amber-600">Mes salles</a>
+                    @endif
+                    
+                    @if($user->is_super_admin)
+                        <a href="{{ route('platform') }}" class="font-semibold text-amber-600">Plateforme</a>
                     @endif
                 </nav>
             </div>
             <div class="flex items-center gap-3">
-                <span class="hidden text-xs text-slate-500 dark:text-slate-400 sm:inline">{{ auth()->user()->role->label() }}</span>
+                <span class="hidden text-xs text-slate-500 dark:text-slate-400 sm:inline">{{ $user->role->label() }}</span>
                 <button type="button"
                         @click="dark = !dark; localStorage.setItem('theme', dark ? 'dark' : 'light')"
                         class="rounded-full p-2 hover:bg-slate-200/70 dark:hover:bg-slate-800"
@@ -49,10 +61,12 @@
         <div class="grid grid-cols-4 text-center text-xs font-medium">
             <a href="{{ route('dashboard') }}" class="py-3">Accueil</a>
             <a href="{{ route('calendar') }}" class="py-3">Calendrier</a>
-            @if(auth()->user()->role->canSell())
+            @if($user->role->canSell())
                 <a href="{{ route('bookings.create') }}" class="py-3">Réserver</a>
-                <a href="{{ route('crm') }}" class="py-3">CRM</a>
+            @else
+                <a href="{{ route('stock') }}" class="py-3">Stock</a>
             @endif
+            <a href="{{ route('venues') }}" class="py-3">Salles</a>
         </div>
     </nav>
 

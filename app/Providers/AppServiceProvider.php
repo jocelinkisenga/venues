@@ -3,39 +3,29 @@
 namespace App\Providers;
 
 use App\Listeners\Stripe\RecordCheckoutPayment;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\ServiceProvider;
-
-use Illuminate\Support\Facades\Event;
-use Laravel\Cashier\Events\WebhookReceived;
-use App\Listeners\StripeEventListener;
 use App\Models\Payer;
-use Illuminate\Support\Facades\Blade;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
+use Laravel\Cashier\Events\WebhookReceived;
 
 class AppServiceProvider extends ServiceProvider
 {
-  /**
-   * Register any application services.
-   */
-  public function register(): void
-  {
-    //
-  }
-
-  /**
-   * Bootstrap any application services.
-   */
-  public function boot(): void
-  {
-    if (!App::environment("local")) {
-      URL::forceScheme("https");
+    public function register(): void
+    {
+        //
     }
-    Blade::component('layouts.client', 'app-client');
-    Event::listen(WebhookReceived::class, StripeEventListener::class);
-            Cashier::useCustomerModel(Payer::class);
 
+    public function boot(): void
+    {
+        Cashier::useCustomerModel(Payer::class);
         Event::listen(WebhookReceived::class, RecordCheckoutPayment::class);
-  }
+
+        // 120 requêtes par minute et par jeton, ou par IP sans jeton
+        RateLimiter::for('api', fn (Request $request) => Limit::perMinute(120)
+            ->by(hash('sha256', $request->bearerToken() ?? $request->ip())));
+    }
 }

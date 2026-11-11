@@ -61,5 +61,9 @@ return [
         'secret' => env('STRIPE_WEBHOOK_SECRET'),
     ],
 ],
+'cinetpay' => [
+    'apikey' => env('CINETPAY_APIKEY'),
+    'site_id' => env('CINETPAY_SITE_ID'),
+],
 
 ];

@@ -49,7 +49,7 @@
             </div>
         @endif
 
-        @if($booking->status->value === 'option' && $paid < $deposit)
+{{--         @if($booking->status->value === 'option' && $paid < $deposit)
             <form method="POST" action="{{ $payUrl }}" class="space-y-2">
                 @csrf
                 <input type="hidden" name="kind" value="deposit">
@@ -65,7 +65,31 @@
                     Régler le solde · {{ $venue->money($total - $paid) }}
                 </button>
             </form>
-        @endif
+        @endif --}}
+
+        @if($due > 0)
+    <div class="grid gap-2">
+        @error('method') <p class="text-center text-sm text-red-500">{{ $message }}</p> @enderror
+
+        <form method="POST" action="{{ $payUrl }}">
+            @csrf
+            <input type="hidden" name="kind" value="{{ $kind }}">
+            <input type="hidden" name="method" value="mobile">
+            <button class="w-full rounded-xl bg-emerald-600 py-3 font-semibold text-white shadow hover:bg-emerald-700">
+                Payer par Mobile Money · {{ $venue->money($due) }}
+            </button>
+        </form>
+
+        <form method="POST" action="{{ $payUrl }}">
+            @csrf
+            <input type="hidden" name="kind" value="{{ $kind }}">
+            <input type="hidden" name="method" value="card">
+            <button class="w-full rounded-xl bg-slate-800 py-3 font-semibold text-white hover:bg-slate-900">
+                Payer par carte · {{ $venue->money($due) }}
+            </button>
+        </form>
+    </div>
+@endif
 
         <p class="text-center text-xs text-slate-500">
             Paiement sécurisé par carte. Pour Mobile Money ou virement, contactez la salle.

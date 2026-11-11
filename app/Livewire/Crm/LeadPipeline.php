@@ -66,6 +66,7 @@ class LeadPipeline extends Component
         return view('livewire.crm.lead-pipeline', [
             'columns' => LeadStatus::cases(),
             'leads' => $leads,
+            'eventTypes' => \App\Models\EventType::where('venue_id', Auth::user()->venue_id)->orderBy('name')->pluck('name'),
         ])->layout('layouts.app');
     }
 }

@@ -1,0 +1,24 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        foreach (['spaces', 'packages', 'event_types'] as $table) {
+            Schema::table($table, function (Blueprint $t) {
+                $t->timestamp('archived_at')->nullable()->index();
+            });
+        }
+    }
+
+    public function down(): void
+    {
+        foreach (['spaces', 'packages', 'event_types'] as $table) {
+            Schema::table($table, fn (Blueprint $t) => $t->dropColumn('archived_at'));
+        }
+    }
+};

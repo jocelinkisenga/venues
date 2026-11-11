@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest as AuthLoginRequest;
 use App\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ProvidersRouteServiceProvider;
@@ -28,7 +29,7 @@ class AuthenticatedSessionController extends Controller
      * @param  \App\Http\Requests\Auth\LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(LoginRequest $request)
+    public function store(AuthLoginRequest $request)
     {
         $request->authenticate();
 

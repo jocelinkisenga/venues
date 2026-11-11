@@ -67,4 +67,7 @@ class Booking extends Model
     {
         return 'EVT-'.now()->format('ymd').'-'.Str::upper(Str::random(4));
     }
+
+    public function contract(): HasOne { return $this->hasOne(Contract::class); }
+public function guests(): HasMany { return $this->hasMany(Guest::class); }
 }

@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
             'deposit_percent' => 50,
         ]);
 
+        app(\App\Services\CatalogService::class)->seedDefaults($venue);
+
         foreach ([
             ['Propriétaire', 'proprietaire@demo.test', Role::Owner],
             ['Commercial', 'commercial@demo.test', Role::Sales],
