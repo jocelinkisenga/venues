@@ -33,6 +33,8 @@ use App\Livewire\Api\ApiTokens;
 use App\Livewire\Privacy\PrivacyCenter;
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Livewire\Onboarding\CreateFirstVenue;
 
 Route::get('/', fn () => redirect()->route('dashboard'));
 
@@ -69,6 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Doit rester accessible même si la salle active est suspendue
     Route::get('/salles', MyVenues::class)->name('venues');
     Route::post('/salles/{venue}/ouvrir', VenueSwitchController::class)->name('venues.switch');
+    Route::get('/bienvenue', CreateFirstVenue::class)->name('onboarding');
 });
 
 Route::middleware(['auth', 'verified', 'superadmin'])->group(function () {
@@ -81,21 +84,22 @@ Route::middleware(['auth', 'verified', 'superadmin'])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified', 'venue.active'])->group(function () {
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-    Route::get('/dashboard', function () {
-        $venueId = auth()->user()->venue_id;
+    // Route::get('/dashboard', function () {
+    //     $venueId = auth()->user()->venue_id;
 
-        return view('dashboard', [
-            'upcoming' => Booking::where('venue_id', $venueId)
-                ->where('starts_at', '>=', now())
-                ->whereIn('status', ['option', 'confirmed', 'in_progress'])
-                ->with('space')->orderBy('starts_at')->limit(10)->get(),
-            'expiringOptions' => Booking::where('venue_id', $venueId)
-                ->where('status', 'option')
-                ->where('option_expires_at', '>', now())
-                ->with('space')->orderBy('option_expires_at')->limit(5)->get(),
-        ]);
-    })->name('dashboard');
+    //     return view('dashboard', [
+    //         'upcoming' => Booking::where('venue_id', $venueId)
+    //             ->where('starts_at', '>=', now())
+    //             ->whereIn('status', ['option', 'confirmed', 'in_progress'])
+    //             ->with('space')->orderBy('starts_at')->limit(10)->get(),
+    //         'expiringOptions' => Booking::where('venue_id', $venueId)
+    //             ->where('status', 'option')
+    //             ->where('option_expires_at', '>', now())
+    //             ->with('space')->orderBy('option_expires_at')->limit(5)->get(),
+    //     ]);
+    // })->name('dashboard');
 
     // Lecture pour toute l'équipe ; le déplacement est contrôlé dans le composant
     Route::get('/calendrier', Calendar::class)->name('calendar');
