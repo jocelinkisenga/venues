@@ -19,7 +19,8 @@
         {{-- Identité de la salle --}}
         <div class="flex h-16 items-center gap-3 border-b border-slate-200/70 px-5 dark:border-slate-800">
             <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 font-bold text-white shadow-sm">
-                {{ mb_strtoupper(mb_substr($venue->name, 0, 1)) }}
+                {{-- {{ mb_strtoupper(mb_substr($venue->name, 0, 1)) }} --}}
+                <x-app-logo class="h-9 w-9" />
             </div>
             <div class="min-w-0">
                 <p class="truncate text-sm font-semibold">{{ $venue->name }}</p>

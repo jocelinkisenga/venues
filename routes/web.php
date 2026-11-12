@@ -41,7 +41,7 @@ use App\Livewire\Public\VenueDirectory;
 use App\Livewire\Public\VenueShow;
 use App\Livewire\Venue\VenueProfile;
 
-Route::get('/', fn () => redirect()->route('dashboard'));
+Route::get('/', fn () => redirect()->route('explorer'));
 
 /*
 |--------------------------------------------------------------------------

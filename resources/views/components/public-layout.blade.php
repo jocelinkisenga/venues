@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>{{ $title ? $title.' · ' : '' }}Explorer les salles</title>
     <meta name="description" content="{{ $description ?? 'Trouvez et réservez une salle d\'événements en ligne.' }}">
-    <meta name="theme-color" content="#f59e0b">
-
+<x-pwa-head />
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet">
 
@@ -23,7 +22,7 @@
     <header class="sticky top-0 z-40 border-b border-stone-200/70 bg-white/80 backdrop-blur-xl dark:border-stone-800 dark:bg-stone-950/80">
         <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <a href="{{ route('explorer') }}" class="group flex items-center gap-2.5">
-                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-sm font-bold text-white shadow-sm transition group-hover:shadow-md">S</span>
+               <x-app-logo class="h-9 w-9" />
                 <span class="text-[15px] font-semibold tracking-tight">Explorer les salles</span>
             </a>
 
