@@ -35,6 +35,7 @@ use App\Livewire\Privacy\PrivacyCenter;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Livewire\Onboarding\CreateFirstVenue;
+use App\Livewire\Team\TeamManager;
 
 Route::get('/', fn () => redirect()->route('dashboard'));
 
@@ -139,6 +140,7 @@ Route::middleware(['auth', 'verified', 'venue.active'])->group(function () {
         Route::get('/catalogue', CatalogManager::class)->name('catalog');
         Route::get('/parametres/api', ApiTokens::class)->name('settings.api');
 Route::get('/confidentialite', PrivacyCenter::class)->name('privacy');
+Route::get('/equipe', TeamManager::class)->name('team');
     });
 });
 

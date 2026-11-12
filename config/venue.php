@@ -55,5 +55,19 @@ return [
     ['days' => 15, 'refund' => 50],  // entre 15 et 29 jours : 50 %
     ['days' => 0,  'refund' => 0],   // moins de 15 jours : aucun remboursement
 ],
+'online_min_notice_hours' => 48,   // délai minimum entre la demande et l'événement
+'online_max_photos' => 12,
 
+'amenities' => [
+    'climatisation' => 'Climatisation',
+    'groupe_electrogene' => 'Groupe électrogène',
+    'parking' => 'Parking',
+    'sono' => 'Sono incluse',
+    'cuisine' => 'Cuisine équipée',
+    'wifi' => 'Wi-Fi',
+    'securite' => 'Sécurité 24 h',
+    'acces_pmr' => 'Accès PMR',
+    'eau' => 'Eau courante',
+    'vestiaires' => 'Vestiaires',
+],
 ];

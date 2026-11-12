@@ -36,6 +36,7 @@ final class Navigation
                 self::item('Journal d\'audit', 'audit', 'shield', 'audit'),
                 self::item('Accès API', 'settings.api', 'key', 'settings.api'),
                 self::item('Données personnelles', 'privacy', 'shield', 'privacy'),
+                self::item('Équipe', 'team', 'users', 'team'),
             ] : []],
             ['title' => 'Compte', 'items' => array_merge(
                 [self::item('Mes salles', 'venues', 'building', 'venues')],

@@ -19,7 +19,7 @@ class Booking extends Model
     protected $fillable = [
         'venue_id', 'space_id', 'package_id', 'lead_id', 'created_by', 'reference', 'event_type',
         'client_name', 'client_phone', 'guests_count', 'starts_at', 'ends_at', 'status',
-        'option_expires_at', 'notes',
+        'option_expires_at', 'notes','source', 'client_email',
     ];
 
     protected $casts = [
