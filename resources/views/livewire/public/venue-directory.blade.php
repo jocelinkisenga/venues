@@ -19,7 +19,23 @@
             <p class="mx-auto mt-4 max-w-xl text-pretty text-stone-500 dark:text-stone-400">
                 Comparez les espaces, vérifiez les dates disponibles et envoyez votre demande en quelques clics.
             </p>
-
+            {{-- recjecje --
+            <form wire:submit="askAssistant" class="mx-auto mt-10 max-w-4xl">
+    <label for="ask" class="sr-only">Décrivez votre événement</label>
+    <div class="flex items-center gap-2 rounded-2xl bg-white p-2 ring-1 ring-stone-900/5 shadow-sm dark:bg-stone-900 dark:ring-white/10">
+        <x-ui-icon name="sparkles" class="ml-3 h-5 w-5 shrink-0 text-amber-500" />
+        <input id="ask" type="text" wire:model="ask"
+               placeholder="Ex : salle pour 150 personnes à Lubumbashi le 14 décembre, avec parking"
+               class="h-11 min-w-0 flex-1 border-0 bg-transparent text-[15px] placeholder:text-stone-400 focus:ring-0">
+        <button type="submit" wire:loading.attr="disabled" wire:target="askAssistant"
+                class="h-11 shrink-0 rounded-xl bg-stone-900 px-5 text-sm font-semibold text-white transition hover:bg-stone-800 disabled:opacity-60 dark:bg-amber-400 dark:text-stone-900">
+            <span wire:loading.remove wire:target="askAssistant">Chercher</span>
+            <span wire:loading wire:target="askAssistant">Analyse…</span>
+        </button>
+    </div>
+    @error('ask') <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
+</form>
+{{-- recherche --}}
             <form onsubmit="return false"
                   class="mx-auto mt-10 max-w-4xl rounded-3xl bg-white p-2 text-left shadow-xl shadow-stone-900/[0.06] ring-1 ring-stone-900/5 md:rounded-full dark:bg-stone-900 dark:ring-white/10">
                 <div class="flex flex-col md:flex-row md:items-stretch">

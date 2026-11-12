@@ -70,4 +70,5 @@ class Booking extends Model
 
     public function contract(): HasOne { return $this->hasOne(Contract::class); }
 public function guests(): HasMany { return $this->hasMany(Guest::class); }
+public function floorPlan(): HasOne { return $this->hasOne(FloorPlan::class); }
 }

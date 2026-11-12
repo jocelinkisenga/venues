@@ -124,4 +124,29 @@
         </form>
         <p class="mt-3 text-xs text-slate-500">Un acompte suffisant confirme automatiquement l'option.</p>
     </section>
+
+    <x-card>
+    <x-slot:header>Message au client</x-slot:header>
+    <div class="space-y-3">
+        <button type="button" wire:click="draftMessage" wire:loading.attr="disabled"
+                class="inline-flex items-center gap-2 rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium transition hover:bg-stone-50 dark:border-stone-700 dark:hover:bg-stone-800">
+            <x-ui-icon name="sparkles" class="h-4 w-4 text-amber-500" />
+            <span wire:loading.remove wire:target="draftMessage">Rédiger un brouillon</span>
+            <span wire:loading wire:target="draftMessage">Rédaction…</span>
+        </button>
+
+        @error('draft') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+
+        @if($draft !== '')
+            <textarea wire:model="draft" rows="6"
+                      class="w-full rounded-xl border border-stone-200 bg-white px-4 py-3 text-sm dark:border-stone-700 dark:bg-stone-800"></textarea>
+            <p class="text-xs text-stone-500">Relisez le message avant envoi. Il n'est jamais envoyé automatiquement.</p>
+            <a href="https://wa.me/{{ preg_replace('/\D/', '', $booking->client_phone) }}?text={{ urlencode($draft) }}"
+               target="_blank" rel="noopener"
+               class="inline-flex items-center rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white">
+                Ouvrir dans WhatsApp
+            </a>
+        @endif
+    </div>
+</x-card>
 </div>

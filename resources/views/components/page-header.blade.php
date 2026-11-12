@@ -10,7 +10,7 @@
         @if($back)
             <a href="{{ $back }}" wire:navigate
                class="mb-2 inline-flex items-center gap-1 text-sm text-slate-500 transition hover:text-slate-800 dark:hover:text-slate-200">
-                <x-icon name="chevron" class="h-4 w-4 rotate-90" />
+                <x-ui-icon name="chevron" class="h-4 w-4 rotate-90" />
                 {{ $backLabel }}
             </a>
         @endif

@@ -48,12 +48,14 @@
         @endif
 
         {{-- Thème clair / sombre --}}
-        <button type="button" aria-label="Changer de thème"
-                @click="document.documentElement.classList.toggle('dark'); localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light')"
-                class="rounded-xl p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-100">
-            <x-ui-icon name="moon" class="block h-5 w-5 dark:hidden" />
-            <x-ui-icon name="sun" class="hidden h-5 w-5 dark:block" />
-        </button>
+<button type="button"
+        @click="$store.theme.cycle()"
+        :title="'Thème : ' + ({ light: 'clair', dark: 'sombre', system: 'système' })[$store.theme.mode]"
+        aria-label="Changer de thème"
+        class="rounded-xl p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-100">
+    <x-ui-icon name="sun" class="h-5 w-5" x-show="$store.theme.resolved === 'dark'" x-cloak />
+    <x-ui-icon name="moon" class="h-5 w-5" x-show="$store.theme.resolved === 'light'" x-cloak />
+</button>
 
         {{-- Menu utilisateur --}}
         <div x-data="{ open: false }" @click.outside="open = false" class="relative">

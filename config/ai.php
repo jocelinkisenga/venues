@@ -49,6 +49,10 @@ return [
     |
     */
 
+    'enabled' => env('AI_ENABLED', true),
+    'model' => env('AI_MODEL', 'gemini-2.5-flash'),
+    'rate_limit_per_hour' => (int) env('AI_RATE_LIMIT_PER_HOUR', 20),
+
     'providers' => [
         'anthropic' => [
             'driver' => 'anthropic',

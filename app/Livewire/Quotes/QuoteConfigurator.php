@@ -10,11 +10,15 @@ use App\Services\QuoteCalculator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use App\Services\Ai\AiAssistant;
+
+
 
 class QuoteConfigurator extends Component
 {
     public Booking $booking;
-
+    public string $draft = '';
+    public string $draftGoal = 'Relancer pour confirmer le devis et le paiement de l\'acompte';
     // Ligne de prestation
     public string $label = '';
     public string $quantity = '1';
@@ -164,6 +168,20 @@ $message = "Bonjour {$this->booking->client_name}, voici votre devis {$this->boo
             'whatsappUrl' => 'https://wa.me/'.$phone.'?text='.urlencode($message),
         ])->layout('layouts.app');
     }
+
+
+
+public function draftMessage(AiAssistant $ai): void
+{
+    abort_unless(Auth::user()->role->canSell(), 403);
+
+    try {
+        $this->draft = $ai->draftMessage($this->booking->fresh(), $this->draftGoal);
+        $this->resetErrorBag('draft');
+    } catch (\RuntimeException $e) {
+        $this->addError('draft', $e->getMessage());
+    }
+}
 
     /** Devis frais avec lignes chargées (évite les relations en cache). */
     private function quote(): Quote

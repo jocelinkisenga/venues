@@ -7,6 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+ use App\Services\Ai\AiAssistant;
+use Illuminate\Support\Facades\RateLimiter;
+
 
 class VenueDirectory extends Component
 {
@@ -15,6 +18,12 @@ class VenueDirectory extends Component
         'price' => 'Prix croissant',
         'capacity' => 'Capacité',
     ];
+
+#[Url(as: 'eq', history: true)]
+public array $amenities = [];
+
+public string $ask = '';
+
 
     #[Url(as: 'q', history: true)]
     public string $search = '';
@@ -65,6 +74,7 @@ class VenueDirectory extends Component
             ))
             ->when($this->sort === 'price', fn ($q) => $q->orderByRaw('min_price IS NULL, min_price ASC'))
             ->when($this->sort === 'capacity', fn ($q) => $q->orderByDesc('max_capacity'))
+            ->when(! empty($this->amenities), fn (Builder $q) => $this->applyAmenities($q))
             ->when(! in_array($this->sort, ['price', 'capacity'], true), fn ($q) => $q->orderBy('name'))
             ->get();
 
@@ -115,4 +125,46 @@ class VenueDirectory extends Component
                 ->where('ends_at', '>=', $start->toDateTimeString()));
         }
     }
+
+
+
+public function askAssistant(AiAssistant $ai)
+{
+    $this->validate(['ask' => ['required', 'string', 'min:3', 'max:400']]);
+
+    $key = 'ai-search:'.(auth()->id() ?? request()->ip());
+
+    if (RateLimiter::tooManyAttempts($key, config('ai.rate_limit_per_hour'))) {
+        $this->addError('ask', 'Vous avez atteint la limite de recherches pour cette heure.');
+
+        return;
+    }
+
+    RateLimiter::hit($key, 3600);
+
+    try {
+        $filters = $ai->searchFilters($this->ask, [
+            'cities' => Venue::listed()->whereNotNull('city')->distinct()->orderBy('city')->pluck('city')->all(),
+            'amenities' => config('venue.amenities'),
+        ]);
+    } catch (\RuntimeException $e) {
+        $this->addError('ask', $e->getMessage().' Utilisez les filtres ci-dessous.');
+
+        return;
+    }
+
+    return $this->redirect(route('explorer', array_filter([
+        'city' => $filters['city'],
+        'date' => $filters['date'],
+        'guests' => $filters['guests'] ?: null,
+        'eq' => $filters['amenities'] ?: null,
+    ])), navigate: true);
+}
+
+private function applyAmenities(Builder $query): void
+{
+    foreach (array_intersect($this->amenities, array_keys(config('venue.amenities'))) as $amenity) {
+        $query->whereJsonContains('amenities', $amenity);
+    }
+}
 }

@@ -6,14 +6,7 @@
     <title>{{ auth()->user()?->venue?->name ?? config('app.name') }}</title>
 
     {{-- Thème appliqué avant le premier affichage : pas de flash clair/sombre --}}
-    <script>
-        (function () {
-            var t = localStorage.getItem('theme');
-            if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-            }
-        })();
-    </script>
+<x-theme-script />
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet">

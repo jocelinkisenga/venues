@@ -70,4 +70,24 @@ return [
     'eau' => 'Eau courante',
     'vestiaires' => 'Vestiaires',
 ],
+'seating' => [
+    'categories' => [
+        'standard' => 'Standard',
+        'honneur' => 'Table d\'honneur',
+        'famille' => 'Famille',
+        'vip' => 'VIP',
+        'enfants' => 'Enfants',
+    ],
+    'shapes' => [
+        'round' => 'Ronde',
+        'square' => 'Carrée',
+        'rectangle' => 'Rectangulaire',
+    ],
+    'layouts' => [
+        'banquet' => 'Banquet (tables rondes)',
+        'u' => 'Disposition en U',
+        'theatre' => 'Style théâtre',
+        'cocktail' => 'Cocktail debout',
+    ],
+],
 ];
