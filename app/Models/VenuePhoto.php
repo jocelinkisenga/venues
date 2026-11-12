@@ -12,8 +12,13 @@ class VenuePhoto extends Model
 
     public function venue(): BelongsTo { return $this->belongsTo(Venue::class); }
 
+    // public function url(): string
+    // {
+    //     return Storage::disk('public')->url($this->path);
+    // }
     public function url(): string
-    {
-        return Storage::disk('public')->url($this->path);
-    }
+{
+    // Adresse relative : fonctionne quel que soit l'hôte, le port ou APP_URL
+    return '/storage/'.ltrim($this->path, '/');
+}
 }

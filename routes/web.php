@@ -36,6 +36,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Livewire\Onboarding\CreateFirstVenue;
 use App\Livewire\Team\TeamManager;
+use App\Http\Controllers\PublicRequestController;
+use App\Livewire\Public\VenueDirectory;
+use App\Livewire\Public\VenueShow;
+use App\Livewire\Venue\VenueProfile;
 
 Route::get('/', fn () => redirect()->route('dashboard'));
 
@@ -47,7 +51,11 @@ Route::get('/', fn () => redirect()->route('dashboard'));
 
 // Mobile Money : CinetPay notifie, l'application vérifie auprès de l'API
 Route::post('/cinetpay/notify', CinetPayController::class)->name('cinetpay.notify');
-
+Route::get('/explorer', VenueDirectory::class)->name('explorer');
+Route::get('/explorer/{slug}', VenueShow::class)->name('explorer.show');
+Route::get('/demande/merci/{booking}', [PublicRequestController::class, 'thanks'])
+    ->middleware('signed')
+    ->name('public.thanks');
 // Espace client : liens signés
 Route::middleware('signed')->group(function () {
     Route::get('/espace-client/{booking}', [PortalController::class, 'show'])->name('portal.show');
@@ -141,6 +149,7 @@ Route::middleware(['auth', 'verified', 'venue.active'])->group(function () {
         Route::get('/parametres/api', ApiTokens::class)->name('settings.api');
 Route::get('/confidentialite', PrivacyCenter::class)->name('privacy');
 Route::get('/equipe', TeamManager::class)->name('team');
+Route::get('/salle/profil', VenueProfile::class)->name('venue.profile');
     });
 });
 

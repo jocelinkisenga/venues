@@ -37,6 +37,8 @@ final class Navigation
                 self::item('Accès API', 'settings.api', 'key', 'settings.api'),
                 self::item('Données personnelles', 'privacy', 'shield', 'privacy'),
                 self::item('Équipe', 'team', 'users', 'team'),
+                self::item('Profil public', 'venue.profile', 'building', 'venue.profile'),
+                
             ] : []],
             ['title' => 'Compte', 'items' => array_merge(
                 [self::item('Mes salles', 'venues', 'building', 'venues')],
